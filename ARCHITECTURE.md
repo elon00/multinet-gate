@@ -1,31 +1,18 @@
-﻿# multinet-gate (}ticker) // PRODUCTION ARCHITECTURE BLUEPRINT
+# Multinet Gate — bounded architecture and evidence
 
-> **Canonical System ID**: QMOOSA-0965  
-> **Component Role**: TESTS  
-> **Institutional Reality Gate Compliance**: 100/100 VERIFIED  
+Canonical QMOOSA-1000 ID: **QMOOSA-0965**; role: **TESTS**; family: institutional multi-currency liquidity netting (Batch 193).
 
----
+## Implemented and testable
 
-## 1. High-Performance Multi-Chain Infrastructure
-- **QuickNode RPC Gateway**: High-throughput multi-chain node fabric (EVM, Solana, Base, Arbitrum).
-- **Endpoint Failover**: Automated WebSocket stream recovery with sub-50ms heartbeat latency.
+- `netting_gate.py`: deterministic, offline, exact-Decimal per-currency zero-sum checker for a bounded JSON batch (2–1000 entries; <=1 MB input file).
+- `tests/test_netting_gate.py`: positive, negative, adversarial and subprocess regression cases.
+- GitHub Actions: Python regression and CodeQL analysis with initialization, plus Rust formatting and compilation.
+- Rust entrypoint: explicitly fail-closed, with no simulated settlement or false RPC/PQC/production claims.
 
-## 2. Invariant Reality Gates & Mathematical Engine
-- **Conway Automaton Engine**: 2D cellular automaton bitboard transition matrix (B3/S23) for deterministic state verification.
-- **X402 Bazaar Micropayments**: HTTP 402 sub-cent machine-to-machine streaming rail with EIP-712 non-reentrant ticket validation.
-- **Post-Quantum Cryptography (PQC)**: NIST FIPS 203 (ML-KEM) lattice encapsulation and FIPS 204 (ML-DSA) state signatures.
+## Not implemented
 
-## 3. Autonomous AI & Cognitive Agent Framework
-- **Raven Recursive Self-Improvement (RSI)**: Continuous neural self-reflection and inference verification.
-- **REA (Reasoning & Execution Agent)**: Actor-model cognitive task dispatcher.
-- **Model Context Protocol (MCP)**: Native standardized tool calling and schema validation.
+Settlement orchestration, ledger persistence, counterparty authentication, authorization, replay protection, FX conversion, slippage control, liquidity proof, regulated custody, transaction finality, live RPC, PQC/FIPS, x402, Conway automata, AI agents, and mainnet/testnet deployment. These are **not verified** and must not be inferred from offline tests.
 
-## 4. Unlimited Dynamic Tokenomics & Fair-Launch AMM
-- Continuous polynomial liquidity curve: $$Price(S) = P_0 + k \cdot S^\alpha$$
-- Instant liquidity absorption with zero initial LP capital requirements.
+## Security gates
 
-## 5. Security & Verification Harness
-- Automated Smoke Test (<30s runtime)
-- 10,000-cycle Invariant Regression Battery
-- Memory and Thread Sanitizers
-- GitHub Actions CodeQL Security Analysis CI
+Reject invalid currencies, float/NaN, excessive precision, oversized amounts, missing/extra fields, empty batches, cross-currency offsetting and unbalanced sums. Independent threat modeling, ledger-level reconciliation, concurrency/restart negative tests and security review are required before any production claim.

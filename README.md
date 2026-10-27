@@ -1,31 +1,27 @@
-﻿# Multinet Gate (ticker)
-> Autonomous Production-Grade Protocol
+# Multinet Gate — offline netting conservation checker
 
-[![CI/CD Pipeline](https://github.com/elon00/multinet-gate/actions/workflows/ci-cd-pipeline.yml/badge.svg)](https://github.com/elon00/multinet-gate/actions)
-[![Score](https://img.shields.io/badge/Reality%20Gates-100%2F100%20GENUINE%20GREEN-2ea44f?style=flat-square)](#reality-check-verification)
-[![NIST PQC](https://img.shields.io/badge/Security-NIST%20FIPS%20203%20%26%20204-blue?style=flat-square)](#security)
-[![Verified](https://img.shields.io/badge/Status-100%25%20Verified-gold?style=flat-square)](#pillars)
+**Scope:** Approved QMOOSA-1000 component QMOOSA-0965, Batch 193, tests role.
 
----
+This repository is **not production ready**. The only implemented gate checks whether a user-supplied JSON batch balances independently within each three-letter currency. It uses exact decimal arithmetic, rejects floating-point amounts and malformed inputs, and has no network, settlement, signature, identity, liquidity, credit, FX, or transaction-finality integration.
 
-## About Multinet Gate
-**Multinet Gate (\ticker)** is an autonomous, decentralized, post-quantum intelligence protocol engineered for production-grade operational efficiency and cryptographic trust.
+## Run locally
 
----
+```bash
+python -m unittest discover -s tests -p 'test_*.py' -v
+python netting_gate.py batch.json
+cargo check --locked
+```
 
-## Running the Protocol Locally
+Example `batch.json`:
 
-### 1. Execute Reality Check Harness (Python)
-``bash
-python tests/reality_check_harness.py
-``
+```json
+{"positions":[{"currency":"USD","amount":"10.25"},{"currency":"USD","amount":"-10.25"}]}
+```
 
-### 2. Run the High-Performance Rust State Engine
-``bash
-cargo run
-``
+Exit codes: 0 balanced; 1 invalid/unbalanced/file failure; 2 CLI usage error. The Rust binary deliberately exits 2 because a Rust settlement engine is not implemented.
 
----
+## Verification limits
 
-## Reality Check Verification
-Multinet Gate enforces strict pre-deployment verification: all invariants, cryptographic proofs, and micro-escrow contracts must achieve a **100/100 Genuine Green** rating before mainnet settlement.
+This offline invariant is necessary but nowhere near sufficient for settlement. It does **not** prove solvency, available balances, authorized transfers, replay protection, counterparty consent, double-entry ledger correctness, payment finality, regulatory compliance, security approval, FIPS validation, or deployment readiness. All those remain **BLOCKED / NOT VERIFIED**.
+
+See `ARCHITECTURE.md` and `SECURITY.md`. Do not deploy or process real funds based on this gate.
